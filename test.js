@@ -1,30 +1,29 @@
 /*!
  * get-pkgs <https://github.com/jonschlinkert/get-pkgs>
  *
- * Copyright (c) 2014 Jon Schlinkert, contributors.
- * Licensed under the MIT License
+ * Copyright (c) 2015, Jon Schlinkert.
+ * Licensed under the MIT License.
  */
 
 'use strict';
 
 var should = require('should');
-var pkgs = require('./');
+var get = require('./');
 
-describe('pkgs', function (done) {
-  it('should get a package.json for the given module:', function (done) {
-    pkgs('verb', function(err, pkg) {
-      pkg[0].should.have.property('name', 'verb');
+describe('getPackages', function () {
+  it('should get package.json files for a list of projects:', function (done) {
+    get(['assemble', 'verb'], function(err, pkgs) {
+      pkgs[0].should.have.property('name', 'assemble');
+      pkgs[1].should.have.property('name', 'verb');
       done();
     });
   });
 
-  it('should get a package.json for an array of modules:', function (done) {
-    pkgs(['verb', 'assemble'], function(err, pkg) {
-      pkg[0].should.have.property('name', 'verb');
-      pkg[1].should.have.property('name', 'assemble');
+  it('should filter properties:', function (done) {
+    get(['assemble', 'verb'], '!_*', function(err, pkgs) {
+      pkgs[0].should.not.have.property('_shasum');
+      pkgs[1].should.not.have.property('_shasum');
       done();
     });
   });
 });
-
-
