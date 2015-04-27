@@ -7,7 +7,8 @@
 
 'use strict';
 
-var should = require('should');
+require('should');
+require('mocha');
 var get = require('./');
 
 describe('getPackages', function () {
