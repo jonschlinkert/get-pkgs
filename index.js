@@ -7,6 +7,7 @@
 
 'use strict';
 
+var chalk = require('chalk');
 var async = require('async');
 var filter = require('filter-object');
 var pkg = require('package-json');
@@ -19,8 +20,8 @@ module.exports = function get(repos, pattern, cb) {
   async.reduce(arrayify(repos), [], function(acc, repo, next) {
     pkg(repo, 'latest', function (err, json) {
       if (err) {
-        next(err);
-        return;
+        console.log(chalk.red(err + ': "') + chalk.bold(repo) + '"');
+        return next(err);
       }
       next(null, acc.concat(filter(json, pattern)));
     });
