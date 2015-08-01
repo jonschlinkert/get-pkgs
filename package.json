@@ -1,23 +1,14 @@
 {
   "name": "get-pkgs",
   "description": "Get the package.json for an array of repos from the npm registry, optionally filtering properties using glob patterns.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "homepage": "https://github.com/jonschlinkert/get-pkgs",
-  "author": {
-    "name": "Jon Schlinkert",
-    "url": "https://github.com/jonschlinkert"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/jonschlinkert/get-pkgs.git"
-  },
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/get-pkgs",
   "bugs": {
     "url": "https://github.com/jonschlinkert/get-pkgs/issues"
   },
-  "license": {
-    "type": "MIT",
-    "url": "https://github.com/jonschlinkert/get-pkgs/blob/master/LICENSE"
-  },
+  "license": "MIT",
   "files": [
     "index.js"
   ],
@@ -29,10 +20,11 @@
     "test": "mocha"
   },
   "dependencies": {
-    "async": "^0.9.0",
-    "chalk": "^1.0.0",
-    "filter-object": "^1.1.0",
-    "package-json": "^1.1.0"
+    "ansi-bold": "^0.1.1",
+    "ansi-red": "^0.1.1",
+    "async": "^1.4.0",
+    "filter-object": "^2.0.0",
+    "min-request": "^1.4.1"
   },
   "devDependencies": {
     "mocha": "*",
