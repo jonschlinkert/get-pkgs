@@ -7,10 +7,11 @@
 
 'use strict';
 
-var chalk = require('chalk');
+var bold = require('ansi-bold');
+var red = require('ansi-red');
 var async = require('async');
 var filter = require('filter-object');
-var pkg = require('package-json');
+var request = require('min-request');
 
 module.exports = function get(repos, pattern, cb) {
   if (typeof pattern === 'function') {
@@ -20,7 +21,7 @@ module.exports = function get(repos, pattern, cb) {
   async.reduce(arrayify(repos), [], function(acc, repo, next) {
     pkg(repo, 'latest', function (err, json) {
       if (err) {
-        console.log(chalk.red(err + ': "') + chalk.bold(repo) + '"');
+        console.log(red(err + ': "') + bold(repo) + '"');
         return next(err);
       }
       next(null, acc.concat(filter(json, pattern)));
@@ -30,4 +31,17 @@ module.exports = function get(repos, pattern, cb) {
 
 function arrayify(val) {
   return !Array.isArray(val) ? [val] : val;
+}
+
+function pkg(name, version, cb) {
+  var url = 'https://registry.npmjs.org/' + name + '/';
+
+  if (typeof version !== 'string') {
+    cb = version;
+    version = '';
+  }
+  request(url + version, {}, function (err, res) {
+    if (err) return cb(err);
+    cb(null, JSON.parse(res.body));
+  });
 }
