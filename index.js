@@ -7,24 +7,20 @@
 
 'use strict';
 
-var bold = require('ansi-bold');
-var red = require('ansi-red');
-var async = require('async');
-var filter = require('filter-object');
-var request = require('min-request');
+var utils = require('./utils');
 
 module.exports = function get(repos, pattern, cb) {
   if (typeof pattern === 'function') {
     cb = pattern; pattern = '*';
   }
 
-  async.reduce(arrayify(repos), [], function(acc, repo, next) {
+  utils.async.reduce(arrayify(repos), [], function(acc, repo, next) {
     pkg(repo, 'latest', function (err, json) {
       if (err) {
-        console.log(red(err + ': "') + bold(repo) + '"');
+        console.log(utils.red(err + ': "') + utils.bold(repo) + '"');
         return next(err);
       }
-      next(null, acc.concat(filter(json, pattern)));
+      next(null, acc.concat(utils.filter(json, pattern)));
     });
   }, cb);
 };
@@ -40,7 +36,7 @@ function pkg(name, version, cb) {
     cb = version;
     version = '';
   }
-  request(url + version, {}, function (err, res) {
+  utils.request(url + version, {}, function (err, res) {
     if (err) return cb(err);
     cb(null, JSON.parse(res.body));
   });
