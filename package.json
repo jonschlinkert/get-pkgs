@@ -42,5 +42,14 @@
     "package.json",
     "pkg",
     "pkgs"
-  ]
+  ],
+  "verb": {
+    "related": {
+      "list": [
+        "helper-related",
+        "filter-object",
+        "helper-reflinks"
+      ]
+    }
+  }
 }
