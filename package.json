@@ -21,12 +21,9 @@
     "test": "mocha"
   },
   "dependencies": {
-    "ansi-bold": "^0.1.1",
-    "ansi-red": "^0.1.1",
     "async": "^1.5.0",
-    "filter-object": "^2.1.0",
-    "lazy-cache": "^0.2.4",
-    "min-request": "^1.4.1"
+    "get-pkg": "^0.1.0",
+    "lazy-cache": "^0.2.4"
   },
   "devDependencies": {
     "mocha": "*",
@@ -46,9 +43,9 @@
   "verb": {
     "related": {
       "list": [
-        "helper-related",
-        "filter-object",
-        "helper-reflinks"
+        "get-pkg",
+        "github-base",
+        "get-first-commit"
       ]
     }
   }
