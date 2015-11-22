@@ -12,19 +12,18 @@ require('mocha');
 var get = require('./');
 
 describe('getPackages', function () {
-  it('should get package.json files for a list of projects:', function (done) {
-    get(['assemble', 'verb'], function(err, pkgs) {
-      pkgs[0].should.have.property('name', 'assemble');
-      pkgs[1].should.have.property('name', 'verb');
-      done();
+  it('should get the package.json for the given repo', function (cb) {
+    get('generate', function(err, pkgs) {
+      pkgs[0].should.have.property('name', 'generate');
+      cb();
     });
   });
 
-  it('should filter properties:', function (done) {
-    get(['assemble', 'verb'], '!_*', function(err, pkgs) {
-      pkgs[0].should.not.have.property('_shasum');
-      pkgs[1].should.not.have.property('_shasum');
-      done();
+  it('should get package.json files for an array of repos', function (cb) {
+    get(['assemble', 'verb'], function(err, pkgs) {
+      pkgs[0].should.have.property('name', 'assemble');
+      pkgs[1].should.have.property('name', 'verb');
+      cb();
     });
   });
 });

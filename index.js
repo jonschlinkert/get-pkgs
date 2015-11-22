@@ -9,35 +9,17 @@
 
 var utils = require('./utils');
 
-module.exports = function get(repos, pattern, cb) {
-  if (typeof pattern === 'function') {
-    cb = pattern; pattern = '*';
+module.exports = function get(repos, cb) {
+  if (typeof cb !== 'function') {
+    throw new TypeError('expected callback to be a function');
   }
 
-  utils.async.reduce(arrayify(repos), [], function(acc, repo, next) {
-    pkg(repo, 'latest', function (err, json) {
-      if (err) {
-        console.log(utils.red(err + ': "') + utils.bold(repo) + '"');
-        return next(err);
-      }
-      next(null, acc.concat(utils.filter(json, pattern)));
-    });
-  }, cb);
+  if (typeof repos === 'string') {
+    repos = [repos];
+  }
+
+  if (!Array.isArray(repos)) {
+    throw new TypeError('expected the first argument to be a string or array');
+  }
+  utils.async.map(repos, utils.pkg, cb);
 };
-
-function arrayify(val) {
-  return !Array.isArray(val) ? [val] : val;
-}
-
-function pkg(name, version, cb) {
-  var url = 'https://registry.npmjs.org/' + name + '/';
-
-  if (typeof version !== 'string') {
-    cb = version;
-    version = '';
-  }
-  utils.request(url + version, {}, function (err, res) {
-    if (err) return cb(err);
-    cb(null, JSON.parse(res.body));
-  });
-}

@@ -25,11 +25,8 @@ require = utils;
  * Lazily required module dependencies
  */
 
-require('ansi-bold', 'bold');
-require('ansi-red', 'red');
 require('async');
-require('filter-object', 'filter');
-require('min-request', 'request');
+require('get-pkg', 'pkg');
 
 /**
  * Restore `require`
