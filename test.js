@@ -9,12 +9,20 @@
 
 require('should');
 require('mocha');
+var assert = require('assert');
 var get = require('./');
 
 describe('getPackages', function () {
   it('should get the package.json for the given repo', function (cb) {
     get('generate', function(err, pkgs) {
       pkgs[0].should.have.property('name', 'generate');
+      cb();
+    });
+  });
+
+  it('should not error on non-existing repos', function (cb) {
+    get('fofofof', function(err, pkgs) {
+      assert(pkgs.length === 0);
       cb();
     });
   });
