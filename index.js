@@ -22,18 +22,26 @@ module.exports = function get(repos, cb) {
     throw new TypeError('expected the first argument to be a string or array');
   }
 
-  var i = 0;
   utils.async.map(repos, utils.pkg, function(err, res) {
-    var name = repos[i];
-    i++;
-
     if (err) {
       if (err.message !== 'document not found') {
         cb(err);
         return;
       }
-      console.error('npm package "%s" does not exist', name);
-      res = res.filter(Boolean);
+
+      var len = res.length;
+      var idx = -1;
+      var arr = [];
+      while (++idx < len) {
+        if (typeof res[idx] === 'undefined') {
+          console.log();
+          var symbol = utils.yellow(utils.warning);
+          console.error('', symbol, 'WARNING: npm package "' + repos[idx] + '" does not exist');
+        } else {
+          arr.push(res[idx]);
+        }
+      }
+      res = arr;
     }
     cb(null, res);
   });
