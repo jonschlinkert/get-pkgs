@@ -8,7 +8,7 @@ require = utils;
  * Lazily required module dependencies
  */
 
-require('async');
+require('async-array-reduce', 'reduce');
 require('get-pkg', 'pkg');
 require('warning-symbol', 'warning');
 require('ansi-yellow', 'yellow');

@@ -22,14 +22,15 @@
   },
   "dependencies": {
     "ansi-yellow": "^0.1.1",
-    "async": "^1.5.2",
-    "get-pkg": "^0.2.1",
+    "async-array-reduce": "^0.1.0",
+    "get-pkg": "^0.3.0",
     "lazy-cache": "^1.0.3",
     "warning-symbol": "^0.1.0"
   },
   "devDependencies": {
-    "mocha": "*",
-    "should": "*"
+    "gulp-format-md": "^0.1.7",
+    "mocha": "^2.4.5",
+    "should": "^8.3.0"
   },
   "keywords": [
     "get",
@@ -43,12 +44,27 @@
     "pkgs"
   ],
   "verb": {
+    "run": true,
+    "toc": false,
+    "layout": "default",
+    "tasks": [
+      "readme"
+    ],
+    "plugins": [
+      "gulp-format-md"
+    ],
     "related": {
       "list": [
         "get-first-commit",
         "get-pkg",
         "github-base"
       ]
+    },
+    "reflinks": [
+      "verb"
+    ],
+    "lint": {
+      "reflinks": true
     }
   }
 }
