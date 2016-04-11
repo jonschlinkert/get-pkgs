@@ -21,9 +21,11 @@
     "test": "mocha"
   },
   "dependencies": {
+    "ansi-yellow": "^0.1.1",
     "async": "^1.5.2",
-    "get-pkg": "^0.2.0",
-    "lazy-cache": "^1.0.3"
+    "get-pkg": "^0.2.1",
+    "lazy-cache": "^1.0.3",
+    "warning-symbol": "^0.1.0"
   },
   "devDependencies": {
     "mocha": "*",
@@ -43,9 +45,9 @@
   "verb": {
     "related": {
       "list": [
+        "get-first-commit",
         "get-pkg",
-        "github-base",
-        "get-first-commit"
+        "github-base"
       ]
     }
   }
