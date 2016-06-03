@@ -8,10 +8,8 @@ require = utils;
  * Lazily required module dependencies
  */
 
-require('async-array-reduce', 'reduce');
+require('async-each', 'each');
 require('get-pkg', 'pkg');
-require('warning-symbol', 'warning');
-require('ansi-yellow', 'yellow');
 require = fn;
 
 /**

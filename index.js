@@ -9,7 +9,12 @@
 
 var utils = require('./utils');
 
-module.exports = function get(repos, cb) {
+module.exports = function get(repos, options, cb) {
+  if (typeof options === 'function') {
+    cb = options;
+    options = {};
+  }
+
   if (typeof cb !== 'function') {
     throw new TypeError('expected a callback function');
   }
@@ -23,21 +28,25 @@ module.exports = function get(repos, cb) {
     return;
   }
 
-  utils.reduce(repos, [], function(acc, name, next) {
+  options = options || {};
+
+  utils.each(repos, function(name, next) {
     utils.pkg(name, function(err, pkg) {
       if (err) {
-        if (err.code === 404) {
-          var symbol = utils.yellow(utils.warning);
-          console.error('', symbol, 'WARNING: npm package "' + err.pkgName + '" does not exist');
-          next(null, acc);
+        if (err.message === 'document not found' && options.silent) {
+          next();
           return;
         }
-        if (err && err.message !== 'document not found') {
-          next(err);
-          return;
-        }
+        next(err);
+        return;
       }
-      next(null, acc.concat(pkg || []));
+      next(null, pkg);
     });
-  }, cb);
+  }, function(err, pkgs) {
+    if (err) {
+      cb(err);
+      return;
+    }
+    cb(null, pkgs.filter(Boolean));
+  });
 };
