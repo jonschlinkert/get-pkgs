@@ -1,15 +1,8 @@
-/*!
- * get-pkgs <https://github.com/jonschlinkert/get-pkgs>
- *
- * Copyright (c) 2015, Jon Schlinkert.
- * Licensed under the MIT License.
- */
-
 'use strict';
 
 require('mocha');
-var assert = require('assert');
-var get = require('./');
+const assert = require('assert');
+const get = require('./');
 
 describe('getPackages', function() {
   it('should get the package.json for the given repo', function(cb) {
@@ -50,5 +43,13 @@ describe('getPackages', function() {
       assert(pkgs[1].hasOwnProperty('name', 'verb'));
       cb();
     });
+  });
+
+  it('should return a promise', function() {
+    return get(['assemble', 'verb'])
+      .then(pkgs => {
+        assert(pkgs[0].hasOwnProperty('name', 'assemble'));
+        assert(pkgs[1].hasOwnProperty('name', 'verb'));
+      });
   });
 });

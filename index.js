@@ -1,52 +1,46 @@
 /*!
  * get-pkgs <https://github.com/jonschlinkert/get-pkgs>
  *
- * Copyright (c) 2014-2016, Jon Schlinkert.
- * Licensed under the MIT License.
+ * Copyright (c) 2014-present, Jon Schlinkert.
+ * Released under the MIT License.
  */
 
 'use strict';
 
-var utils = require('./utils');
+const pkg = require('get-pkg');
 
-module.exports = function get(repos, options, cb) {
+module.exports = function get(names, options = {}, cb) {
   if (typeof options === 'function') {
     cb = options;
     options = {};
   }
 
-  if (typeof cb !== 'function') {
-    throw new TypeError('expected a callback function');
+  if (typeof names === 'string') {
+    names = [names];
   }
 
-  if (typeof repos === 'string') {
-    repos = [repos];
+  const pending = [];
+  const pkgs = [];
+
+  for (const name of names) {
+    const promise = pkg(name)
+      .then(res => {
+        if (res) pkgs.push(res);
+      })
+      .catch(err => {
+        if (err.message === 'document not found' && options.silent) return;
+        return Promise.reject(err);
+      });
+
+    pending.push(promise);
   }
 
-  if (!Array.isArray(repos)) {
-    cb(new TypeError('expected a string or array'));
+  const promise = Promise.all(pending);
+
+  if (typeof cb === 'function') {
+    promise.then(() => cb(null, pkgs)).catch(cb);
     return;
   }
 
-  options = options || {};
-
-  utils.each(repos, function(name, next) {
-    utils.pkg(name, function(err, pkg) {
-      if (err) {
-        if (err.message === 'document not found' && options.silent) {
-          next();
-          return;
-        }
-        next(err);
-        return;
-      }
-      next(null, pkg);
-    });
-  }, function(err, pkgs) {
-    if (err) {
-      cb(err);
-      return;
-    }
-    cb(null, pkgs.filter(Boolean));
-  });
+  return promise.then(() => pkgs);
 };
