@@ -10,24 +10,18 @@
   },
   "license": "MIT",
   "files": [
-    "index.js",
-    "utils.js"
+    "index.js"
   ],
   "main": "index.js",
-  "engines": {
-    "node": ">=0.10.0"
-  },
   "scripts": {
     "test": "mocha"
   },
   "dependencies": {
-    "async-each": "^1.0.0",
-    "get-pkg": "^0.3.0",
-    "lazy-cache": "^2.0.1"
+    "get-pkg": "^1.0.0"
   },
   "devDependencies": {
-    "gulp-format-md": "^0.1.9",
-    "mocha": "^2.5.3"
+    "gulp-format-md": "^1.0.0",
+    "mocha": "^5.2.0"
   },
   "keywords": [
     "get",
@@ -57,9 +51,6 @@
         "github-base"
       ]
     },
-    "reflinks": [
-      "verb"
-    ],
     "lint": {
       "reflinks": true
     }
