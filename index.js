@@ -9,38 +9,34 @@
 
 const pkg = require('get-pkg');
 
-module.exports = function get(names, options = {}, cb) {
+module.exports = (names, options, cb) => {
   if (typeof options === 'function') {
     cb = options;
     options = {};
   }
 
-  if (typeof names === 'string') {
-    names = [names];
-  }
+  names = [].concat(names || []);
+  let opts = options || {};
+  let pending = [];
+  let pkgs = [];
 
-  const pending = [];
-  const pkgs = [];
-
-  for (const name of names) {
-    const promise = pkg(name)
-      .then(res => {
-        if (res) pkgs.push(res);
-      })
+  for (let name of names) {
+    let promise = pkg(name)
+      .then(res => res && pkgs.push(res))
       .catch(err => {
-        if (err.message === 'document not found' && options.silent) return;
+        if (err.message === 'document not found' && opts.silent) return;
         return Promise.reject(err);
       });
 
     pending.push(promise);
   }
 
-  const promise = Promise.all(pending);
+  let p = Promise.all(pending);
 
   if (typeof cb === 'function') {
-    promise.then(() => cb(null, pkgs)).catch(cb);
+    p.then(() => cb(null, pkgs)).catch(cb);
     return;
   }
 
-  return promise.then(() => pkgs);
+  return p.then(() => pkgs);
 };

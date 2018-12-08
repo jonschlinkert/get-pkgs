@@ -13,14 +13,17 @@
     "index.js"
   ],
   "main": "index.js",
+  "engines": {
+    "node": ">=4"
+  },
   "scripts": {
     "test": "mocha"
   },
   "dependencies": {
-    "get-pkg": "^1.0.0"
+    "get-pkg": "^1.1.0"
   },
   "devDependencies": {
-    "gulp-format-md": "^1.0.0",
+    "gulp-format-md": "^2.0.0",
     "mocha": "^5.2.0"
   },
   "keywords": [
